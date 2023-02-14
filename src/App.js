@@ -11,6 +11,21 @@ export default class App extends Component {
   handleChange=(e)=>{
     this.setState({text:e.target.value})
   }
+  handleAdd = (e)=>{
+    if(this.state.text!==""){
+       const items =[...this.state.items,this.state.text]
+       this.setState({items:items,text:""})
+    }
+  }
+  handleDelete =(id)=>{
+  const olditems=[...this.state.items]
+  const items = olditems.filter((element,i)=>{
+    return i!==id
+  })
+   this.setState({items:items})
+
+  }
+  
   render() {
     return (
       <div>
@@ -29,11 +44,16 @@ export default class App extends Component {
                   />
                 </div>
                 <div className="col-2">
-                  <button className="btn btn-warning px-5">Add</button>
+                  <button className="btn btn-warning px-5" onClick={this.handleAdd}>Add</button>
                 </div>
                 <div className="container-fluid">
-                  <ul class="list-unstyled row m-5">
-                    <Plan />
+                  <ul className="list-unstyled row m-5">
+                   {
+                    this.state.items.map((value,i)=>{
+                      return <Plan value={value} id={i} setData={this.handleDelete}/>
+                    })
+                   }
+                   
                   </ul>
                 </div>
               </div>
